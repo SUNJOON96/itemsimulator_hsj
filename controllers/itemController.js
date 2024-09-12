@@ -1,15 +1,19 @@
 // controllers/itemController.js
 import Item from '../models/Item.js';
+import Joi from 'joi';
+
+const itemSchema = Joi.object({
+    item_code: Joi.number().required(),
+    item_name: Joi.string().required(),
+    item_stat: Joi.object().required(),
+    item_price: Joi.number().required(),
+});
+
 
 // 아이템 생성 API
 export const createItem = async (req, res, next) => {
-  try {
-    const { item_code, item_name, item_stat, item_price } = req.body;
-
-    // 유효성 체크
-    if (!item_code || !item_name || !item_stat || !item_price) {
-      return res.status(400).json({ errorMessage: '모든 필드를 입력해주세요.' });
-    }
+    try {
+        await itemSchema.validateAsync(req.body); // Joi 유효성 검사
 
     // 아이템 생성
     const newItem = new Item({
@@ -78,4 +82,4 @@ export const getItemDetail = async (req, res, next) => {
     } catch (error) {
       next(error);
     }
-  };
+};

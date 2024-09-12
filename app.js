@@ -3,6 +3,8 @@ import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import itemRoutes from './routes/itemRoutes.js';
+import errorHandler from './middlewares/error-handler.middleware.js';
+
 // 기타 필요한 라우트 import
 
 dotenv.config();
@@ -17,7 +19,6 @@ app.use('/items', itemRoutes);
 // 다른 라우트도 추가
 
 // 에러 핸들러 미들웨어
-import errorHandler from './middlewares/error-handler.middleware.js';
 app.use(errorHandler);
 
 // 데이터베이스 연결 및 서버 시작
